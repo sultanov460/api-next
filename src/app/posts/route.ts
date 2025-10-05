@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { posts } from "@/data/posts";
+import { headers } from "next/headers";
 
 interface Post {
   id: number;
@@ -7,7 +8,11 @@ interface Post {
   author: string;
 }
 
-export async function GET() {
+export async function GET(_req: NextRequest) {
+  const headersList = await headers();
+
+  console.log(headersList.get("Authorization"));
+
   if (!posts.length) {
     return NextResponse.json({ error: "No Posts Found" }, { status: 404 });
   }
